@@ -51,7 +51,7 @@ const ChatComponent = ({ onFilterChange }: { onFilterChange: (filter: any) => vo
         console.log(location);
         console.log(priceRange);
         console.log(bedrooms);
-        onFilterChange({ location, priceRange, bedrooms });
+        onFilterChange({ location, priceRange, bedrooms,amenities });
     }, [priceRange, location, bedrooms]);
 
     return (
