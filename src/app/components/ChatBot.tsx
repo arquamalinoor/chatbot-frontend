@@ -36,9 +36,8 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
       if(payload.price.numberValue){
           setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
       }
-      if(payload.bed.stringValue){
-            console.log(payload.bed);
-        //   setBedrooms(payload.bed.stringValue);
+      if(payload.bed.numberValue){
+            console.log(payload.bed.numberValue);
       }
 
       setChatResponses(prev => [...prev, `You: ${userInput}`, `Bot: ${result.fulfillmentText}`]);
@@ -52,6 +51,7 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
   useEffect(()=>{
     console.log(location);
     console.log(priceRange);
+    console.log(bedrooms);
     onFilterChange({ location, priceRange, bedrooms, amenities });
   },[priceRange,location,bedrooms]);
 
