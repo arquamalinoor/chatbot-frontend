@@ -34,8 +34,8 @@ const ChatComponent = ({ onFilterChange }: { onFilterChange: (filter: any) => vo
                 else{
                     setLocation("");
                 }
-                if (payload.price.numberValue) {
-                    setPriceRange([parseInt(payload.price.stringValue), parseInt(payload.price.stringValue)]);
+                if (payload.price.listValue && payload.price.listValue.values && payload.price.listValue.values[0] && payload.price.listValue.values[0].numberValue) {
+                    setPriceRange([parseInt(payload.price.listValue.values[0].numberValue), parseInt(payload.price.listValue.values[0].numberValue)]);
                 }
                 else{
                     setPriceRange([0, 1000]);
