@@ -31,11 +31,22 @@ const ChatComponent = ({ onFilterChange }: { onFilterChange: (filter: any) => vo
                 if (payload.city.stringValue) {
                     setLocation(payload.city.stringValue);
                 }
+                else{
+                    setLocation("");
+                }
                 if (payload.price.numberValue) {
                     setPriceRange([parseInt(payload.price.stringValue), parseInt(payload.price.stringValue)]);
                 }
-                if (payload.bed.numberValue!=undefined && payload.bed.numberValue>=0) {
+                else{
+                    setPriceRange([0, 1000]);
+                }
+                if (payload.bed.numberValue>=0) {
+                    console.log("setting bed");
+                    console.log(payload.bed.numberValue);
                     setPriceRange(payload.bed.numberValue);
+                }
+                else{
+                    setBedrooms(null);
                 }
             }
 
