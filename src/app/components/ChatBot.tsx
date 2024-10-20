@@ -24,11 +24,12 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
       const result = await response.json();
       console.log(result);
       const payload=result.webhookPayload.fields;
+      if(!payload) return;
 
-      if(payload.city.location){
+      if(payload.city.stringValue){
           setLocation(payload.city.stringValue);
       }
-      if(payload.price.stringValue){
+      if(payload.price.numberValue){
           setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
       }
 
@@ -41,6 +42,8 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
 
 
   useEffect(()=>{
+    console.log(location);
+    console.log(priceRange);
     onFilterChange({ location, priceRange, bedrooms, amenities });
   },[priceRange,location]);
 
