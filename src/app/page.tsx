@@ -50,7 +50,7 @@ export default function HomePage() {
       <Hero/>
       <FilterBar onFilterChange={handleFilterChange} />
       <PropertyList properties={filteredProperties} />
-      <ChatBot/>
+      <ChatBot onFilterChange={handleFilterChange} />
     </div>
   );
 }

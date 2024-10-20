@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const ChatComponent: React.FC = () => {
+const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => {
   const [userInput, setUserInput] = useState("");
   const [chatResponses, setChatResponses] = useState<string[]>([]);
   const [visible, setVisible] = useState(false);
+  const [location, setLocation] = useState<string>("");
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [bedrooms, setBedrooms] = useState<number | null>(null);
+  const [amenities, setAmenities] = useState<string[]>([]);
 
   const handleSendMessage = async () => {
     if (!userInput.trim()) return;
@@ -18,15 +22,25 @@ const ChatComponent: React.FC = () => {
       });
 
       const result = await response.json();
-      console.log(result.fulfillmentText);
-      console.log(result.parameters);
       console.log(result);
+      const payload=result.webhookPayload.fields;
+
+      console.log(payload.city.stringValue);
+      console.log(payload.price.stringValue);
+      setLocation(payload.city.stringValue);
+      setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
+
       setChatResponses(prev => [...prev, `You: ${userInput}`, `Bot: ${result.fulfillmentText}`]);
       setUserInput("");
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+
+  useEffect(()=>{
+    onFilterChange({ location, priceRange, bedrooms, amenities });
+  },[priceRange,location]);
 
   return (
     <div className="fixed bottom-10 right-10">
