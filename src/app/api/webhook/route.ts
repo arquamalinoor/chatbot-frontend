@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 
 
 export  async function POST(req:any, res:any) {
-      // Extract data from the request body
-        console.log(await req.json());
-        
         const data=await req.json();
+        console.log(data);
         const price=data.queryResult.parameters.price;
         const city=data.queryResult.parameters['geo-city'];
         const message=data.queryResult.fulfillmentText;
