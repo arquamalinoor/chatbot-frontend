@@ -1,34 +1,42 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import fs from 'fs';
 
 
-export async function POST(req: any, res: any) {
-    try {
-        const data = await req.json();
-        console.log(data);
-        const price = data.queryResult.parameters.price;
-        const city = data.queryResult.parameters['geo-city'];
-        const message = data.queryResult.fulfillmentText;
-        const query = data.queryResult.queryText;
 
-        // Send a success response
-        return NextResponse.json({
-            message: message,
-            query: query,
-            data: {
-                price,
-                city
-            }
-        }, { status: 200 })
-    }
-    catch (e) {
-        return NextResponse.json({
-            error: "server error"
-        }, { status: 500 })
-    }
-}
 
-export async function GET(req: any, res: any) {
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    console.log("Received webhook request:", body);
+
+    const price = body.queryResult.parameters.price;
+    const city = body.queryResult.parameters['geo-city'];
+    const query = body.queryResult.queryText;
+
+    const webhookResponse = {
+      fulfillmentMessages: [
+        {
+          text: {
+            text: [`I found properties in ${city} with a price of ${price}. Is there anything specific you're looking for?`]
+          }
+        }
+      ],
+      payload: {
+        price,
+        city,
+        query
+      }
+    };
+
+    console.log("Sending webhook response:", webhookResponse);
+
+    return NextResponse.json(webhookResponse);
+  }
+  catch (e) {
+    console.error("Webhook error:", e);
     return NextResponse.json({
-        message: "hello world"
-    })
+      fulfillmentText: "Sorry, there was an error processing your request."
+    }, { status: 500 });
+  }
 }
+
