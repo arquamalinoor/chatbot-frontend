@@ -6,6 +6,7 @@ import PropertyList from "@/app/components/PropertyList";
 import FilterBar from "@/app/components/FilterBar";
 import { properties } from "./utils/dummyData";
 import Hero from "./components/Hero";
+import ChatBot from "./components/ChatBot";
 
 export default function HomePage() {
   const [filteredProperties, setFilteredProperties] = useState(properties);
@@ -49,6 +50,7 @@ export default function HomePage() {
       <Hero/>
       <FilterBar onFilterChange={handleFilterChange} />
       <PropertyList properties={filteredProperties} />
+      <ChatBot/>
     </div>
   );
 }
