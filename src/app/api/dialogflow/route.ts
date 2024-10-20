@@ -37,8 +37,9 @@ export async function GET(req:any,res:any){
 }
 
 export  async function POST(req: any, res: any) {
-    const { query } = await req.json();
-    console.log(query);
+    const body = await req.json();
+    console.log(body);
+    const query=body.query;
 
     if (!query) {
       return NextResponse.json({ error: "Query is required" });
@@ -59,12 +60,12 @@ export  async function POST(req: any, res: any) {
 
     try {
       const [response] = await sessionClient.detectIntent(request);
+      console.log(response);
       const result = response.queryResult;
-      console.log(result);
-      return NextResponse.json(result);
+      return NextResponse.json(result,{status:200});
     } catch (error) {
       console.error("Dialogflow error:", error);
-      return NextResponse.json({ error: "Internal server error" });
+      return NextResponse.json({ error: "Internal server error" },{status:500});
     }
 
 }
