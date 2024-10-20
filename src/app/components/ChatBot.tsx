@@ -18,6 +18,9 @@ const ChatComponent: React.FC = () => {
       });
 
       const result = await response.json();
+      console.log(result.fulfillmentText);
+      console.log(result.parameters);
+      console.log(result);
       setChatResponses(prev => [...prev, `You: ${userInput}`, `Bot: ${result.fulfillmentText}`]);
       setUserInput("");
     } catch (error) {
