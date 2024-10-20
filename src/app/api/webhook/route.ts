@@ -11,8 +11,9 @@ export async function POST(req: NextRequest) {
 
     const price = body.queryResult.parameters.price;
     const city = body.queryResult.parameters['geo-city'];
+    const bed=body.queryResult.parameters['bed'];
     const query = body.queryResult.queryText;
-
+    console.log(bed);
     const webhookResponse = {
       fulfillmentMessages: [
         {
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
       payload: {
         price,
         city,
+        bed,
         query
       }
     };

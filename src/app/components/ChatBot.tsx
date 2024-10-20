@@ -24,13 +24,21 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
       const result = await response.json();
       console.log(result);
       const payload=result.webhookPayload.fields;
+
+
       if(!payload) return;
+
+
 
       if(payload.city.stringValue){
           setLocation(payload.city.stringValue);
       }
       if(payload.price.numberValue){
           setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
+      }
+      if(payload.bed.stringValue){
+            console.log(payload.bed);
+        //   setBedrooms(payload.bed.stringValue);
       }
 
       setChatResponses(prev => [...prev, `You: ${userInput}`, `Bot: ${result.fulfillmentText}`]);
@@ -45,7 +53,7 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
     console.log(location);
     console.log(priceRange);
     onFilterChange({ location, priceRange, bedrooms, amenities });
-  },[priceRange,location]);
+  },[priceRange,location,bedrooms]);
 
   return (
     <div className="fixed bottom-10 right-10">
