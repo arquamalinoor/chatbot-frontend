@@ -2,23 +2,31 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { SessionsClient } from "@google-cloud/dialogflow";
 import { NextResponse } from "next/server";
 import path from "path";
+import fs from 'fs';
+import os from 'os';
 
 const PROJECT_ID = process.env.DIALOGFLOW_PROJECT_ID;
-const GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-
-console.log(PROJECT_ID);
-console.log(GOOGLE_APPLICATION_CREDENTIALS);
+const GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS || "";
 
 
 if (!PROJECT_ID || !GOOGLE_APPLICATION_CREDENTIALS) {
   throw new Error("Missing Dialogflow credentials in environment variables");
 }
 
-const KEY_PATH = path.join(process.cwd(),GOOGLE_APPLICATION_CREDENTIALS);
+
+function getCredentialsPath() {
+  const credentialsJson = Buffer.from(GOOGLE_APPLICATION_CREDENTIALS, 'base64').toString('utf8');
+  const tempFilePath = path.join(os.tmpdir(), 'google-credentials-temp.json');
+  fs.writeFileSync(tempFilePath, credentialsJson);
+  return tempFilePath;
+}
+
+const credentialsPath = getCredentialsPath();
+
 
 
 const sessionClient = new SessionsClient({
-  keyFilename: KEY_PATH,
+  keyFilename: credentialsPath,
 });
 
 
