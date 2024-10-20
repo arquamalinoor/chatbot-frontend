@@ -25,10 +25,12 @@ const ChatComponent = ({onFilterChange}:{onFilterChange:(filter:any)=>void}) => 
       console.log(result);
       const payload=result.webhookPayload.fields;
 
-      console.log(payload.city.stringValue);
-      console.log(payload.price.stringValue);
-      setLocation(payload.city.stringValue);
-      setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
+      if(payload.city.location){
+          setLocation(payload.city.stringValue);
+      }
+      if(payload.price.stringValue){
+          setPriceRange([parseInt(payload.price.stringValue),parseInt(payload.price.stringValue)]);
+      }
 
       setChatResponses(prev => [...prev, `You: ${userInput}`, `Bot: ${result.fulfillmentText}`]);
       setUserInput("");
