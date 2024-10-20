@@ -43,7 +43,7 @@ const ChatComponent = ({ onFilterChange }: { onFilterChange: (filter: any) => vo
                 if (payload.bed.numberValue>=0) {
                     console.log("setting bed");
                     console.log(payload.bed.numberValue);
-                    setPriceRange(payload.bed.numberValue);
+                    setBedrooms(payload.bed.numberValue);
                 }
                 else{
                     setBedrooms(null);
