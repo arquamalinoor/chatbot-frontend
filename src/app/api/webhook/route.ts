@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export  async function POST(req:any, res:any) {
       // Extract data from the request body
-       console.log(req.body);
-  
+        console.log(req.json());
       
       // Send a success response
       return NextResponse.json({
